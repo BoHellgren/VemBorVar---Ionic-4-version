@@ -1,0 +1,24 @@
+<ion-header>
+  <div style='text-align: center'>
+    <p>Brf Husarvikens Strand</p>
+  </div>
+</ion-header>
+
+<ion-content padding>
+    <ion-searchbar showCancelButton ></ion-searchbar>
+
+    <ion-grid>
+        <ion-row *ngFor='let member of hits'>
+           <ion-col size='2'>{{member.lgh}}</ion-col>
+          <ion-col size='2'>{{member.lmv}}</ion-col>
+          <ion-col size='7'>{{member.membername}}</ion-col>
+          <ion-col size='1' ><ion-button href='/show-floor#{{member.lgh.substring(0,2)}}'></ion-button></ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-button expand='full' href='/home' routerDirection='backward'>Tillbaks till startsidan</ion-button>
+</ion-footer>

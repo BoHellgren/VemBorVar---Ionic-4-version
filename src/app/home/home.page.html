@@ -1,12 +1,56 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
+
+  <figure>
+    <img src='../../assets/imgs/logga.png' width='100%'>
+  </figure>
+
+  <div style='text-align: center'>
+    <p>Brf Husarvikens Strand</p>
+  </div>
+
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" href="https://ionicframework.com/docs">docs</a> will be your guide.</p>
+
+  <ion-grid no-lines>
+    <ion-row>
+      <ion-col col-6>
+        <ion-button size='small' expand='full' fill='outline'>Taxgatan 3</ion-button>
+      </ion-col>
+      <ion-col col-6>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6>
+        <ion-button size='small' expand='full' href='/show-floor#28' routerDirection='forward'>7 trappor</ion-button>
+      </ion-col>
+      <ion-col col-6>
+        <ion-button size='small' expand='full' fill='outline'>Taxgatan 7</ion-button>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row *ngFor='let row of stairs'>
+      <ion-col col-6>
+        <ion-button size='small' expand='full' href='/show-floor#2{{+row.substring(0,1)+1}}' routerDirection='forward'>{{row}}</ion-button>
+      </ion-col>
+      <ion-col col-6>
+        <ion-button size='small' expand='full' color='danger' href='/show-floor#1{{+row.substring(0,1)+1}}' routerDirection='forward'>{{row}}</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
 </ion-content>
+
+
+<ion-footer>
+
+  <ion-button expand='full' href='/search' routerDirection='forward'>Sök på namn eller lgh-nr</ion-button>
+
+  <div style='text-align: center'>
+    <p>Version 4.0 2018-07-29</p>
+  </div>
+
+</ion-footer>
