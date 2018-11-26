@@ -1,21 +1,19 @@
 <ion-header>
-
   <figure>
     <img src='../../assets/imgs/logga.png' width='100%'>
   </figure>
-
-  <div style='text-align: center'>
-    <p>Brf Husarvikens Strand</p>
-  </div>
-
+  <ion-title text-center>
+    Vem Bor Var v4.02
+  </ion-title>
+  <p></p>
 </ion-header>
 
 <ion-content padding>
-
   <ion-grid no-lines>
+
     <ion-row>
       <ion-col col-6>
-        <ion-button size='small' expand='full' fill='outline'>Taxgatan 3</ion-button>
+        <ion-button size='small' expand='full'>Taxgatan 3</ion-button>
       </ion-col>
       <ion-col col-6>
       </ion-col>
@@ -23,34 +21,40 @@
 
     <ion-row>
       <ion-col col-6>
-        <ion-button size='small' expand='full' href='/show-floor#28' routerDirection='forward'>7 trappor</ion-button>
+        <ion-button class='houseblue' size='small' expand='full' href='/show-floor#28' routerDirection='forward'>7
+          trappor</ion-button>
       </ion-col>
       <ion-col col-6>
-        <ion-button size='small' expand='full' fill='outline'>Taxgatan 7</ion-button>
+        <ion-button size='small' expand='full'>Taxgatan 7</ion-button>
       </ion-col>
     </ion-row>
 
 
     <ion-row *ngFor='let row of stairs'>
       <ion-col col-6>
-        <ion-button size='small' expand='full' href='/show-floor#2{{+row.substring(0,1)+1}}' routerDirection='forward'>{{row}}</ion-button>
+        <ion-button class='houseblue' size='small' expand='full' href='/show-floor#2{{+row.substring(0,1)+1}}'
+          routerDirection='forward'>{{row}}</ion-button>
       </ion-col>
       <ion-col col-6>
-        <ion-button size='small' expand='full' color='danger' href='/show-floor#1{{+row.substring(0,1)+1}}' routerDirection='forward'>{{row}}</ion-button>
+        <ion-button class='housered' size='small' expand='full' href='/show-floor#1{{+row.substring(0,1)+1}}'
+          routerDirection='forward'>{{row}}</ion-button>
       </ion-col>
     </ion-row>
 
   </ion-grid>
-
 </ion-content>
 
+<ion-tab-bar>
 
-<ion-footer>
+  <ion-tab-button tab="search" href="/search" routerDirection='forward'>
+    <ion-icon name="search"></ion-icon>
+    <ion-label>Sök</ion-label>
+  </ion-tab-button>
 
-  <ion-button expand='full' href='/search' routerDirection='forward'>Sök på namn eller lgh-nr</ion-button>
+  <ion-tab-button tab="settings" href="/settings" routerDirection='forward'>
+    <ion-icon name="settings"></ion-icon>
+    <ion-label>Inställningar</ion-label>
+  </ion-tab-button>
 
-  <div style='text-align: center'>
-    <p>Version 4.0 2018-07-29</p>
-  </div>
 
-</ion-footer>
+</ion-tab-bar>

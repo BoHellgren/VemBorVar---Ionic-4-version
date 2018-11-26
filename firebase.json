@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "www",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.git/**"
+    ],
+    "rewrites": [ {
+      "source": "/home",
+      "destination": "/index.html"
+    } ],
+    "headers": [ {
+      "source" : "**/ngsw-worker.js",
+      "headers" : [ {
+        "key" : "Cache-Control",
+        "value" : "no-cache"
+      } ]
+    } ]
+    } 
+}

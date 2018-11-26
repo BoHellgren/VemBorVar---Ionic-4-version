@@ -2,12 +2,9 @@
   <figure>
     <img src='../../assets/imgs/logga.png' width='100%'>
   </figure>
-  <div style="text-align: center">
-    <p>Brf Husarvikens Strand</p>
-  </div>
-
-  <ion-title>
-
+  <ion-title text-center>
+    Brf Husarvikens Strand
+    <p></p>
     <ion-row>
       <ion-col size='4'>{{streetAddr}}</ion-col>
       <ion-col size='4'></ion-col>
@@ -17,24 +14,39 @@
 </ion-header>
 
 <ion-content padding>
-
   <ion-grid>
-    <ion-row *ngFor="let member of liveHere">
+    <ion-row *ngFor="let member of showHere">
       <ion-col size='1'></ion-col>
       <ion-col size='2'>{{member.lgh}}</ion-col>
       <ion-col size='2'>{{member.lmv}}</ion-col>
       <ion-col size='7'>{{member.membername}}</ion-col>
     </ion-row>
   </ion-grid>
-
-
 </ion-content>
 
-<ion-footer>
+<ion-tabs>
 
-    <ion-button href='/home' routerDirection='backward'>Tillbaks</ion-button>
-    <ion-button (click)="GoUp($event)">Upp</ion-button>
-    <ion-button (click)="GoDown($event)">Ner</ion-button>
+  <ion-tab tab="home">
+    <ion-router-outlet name="home"></ion-router-outlet>
+  </ion-tab>
 
+  <ion-tab-bar slot="bottom">
 
-</ion-footer>
+    <ion-tab-button tab="up" (click)="GoUp($event)">
+      <ion-icon name="arrow-up"></ion-icon>
+      <ion-label>Upp</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="down" (click)="GoDown($event)">
+      <ion-icon name="arrow-down"></ion-icon>
+      <ion-label>Ner</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="home" href="/home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Hem</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-tabs>

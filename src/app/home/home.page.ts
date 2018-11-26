@@ -1,23 +1,26 @@
-import { Component } from '@angular/core';
-import { MembersService } from '../members.service';
+import { Component, OnInit } from "@angular/core";
+import { MembersService } from "../members.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"]
 })
-export class HomePage {
+export class HomePage implements OnInit {
   stairs: string[] = [
-    '6 trappor ',
-    '5 trappor ',
-    '4 trappor ',
-    '3 trappor ',
-    '2 trappor ',
-    '1 trappa '
+    "6 trappor ",
+    "5 trappor ",
+    "4 trappor ",
+    "3 trappor ",
+    "2 trappor ",
+    "1 trappa "
   ];
 
   constructor(private membersProvider: MembersService) {
-    console.log('HomePage constructor started');
-    this.membersProvider.loadMembers(); // Load members from web site
+    //  console.log("[Home] constructor started");
+  }
+
+  ngOnInit() {
+    this.membersProvider.loadMembers(); // Load members from web site or storage
   }
 }

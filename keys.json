@@ -1,0 +1,3 @@
+// skapas med kommandot  web-push generate-vapid-keys --json > keys.json
+{"publicKey":"BK9Ac2byemhpGs9BJGhyxEhhp-m5FyiWBfp-fnDJHwnvkUuuQj83_JJFZoCNrDav56sPJee6Epd-koA7Z4FQrJQ",
+    "privateKey":"wvYaDr3523FVtFt0e42xJem0ZrsoRjpI_YgHbCrQn8E"}

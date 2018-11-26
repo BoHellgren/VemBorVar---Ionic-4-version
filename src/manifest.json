@@ -1,0 +1,17 @@
+{
+  "name": "Vem Bor Var",
+  "short_name": "VemBorVar",
+  "version": "4",
+  "theme_color": "#1976d2",
+  "background_color": "#989aa2",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "assets/icons/icon-150x150.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    }
+  ]
+}
