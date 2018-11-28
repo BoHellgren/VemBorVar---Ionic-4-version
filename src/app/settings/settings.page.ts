@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
-import { AngularFireDatabase } from "angularfire2/database";
+import { AngularFireDatabase } from "@angular/fire/database";
 import { ToastController } from "@ionic/angular";
+import { AlertController } from "@ionic/angular";
 
 @Component({
   selector: "app-settings",
@@ -12,8 +13,7 @@ export class SettingsPage implements OnInit {
   isSafari = false;
   isIosStandaloneMode = false;
   showAddToHomeScreen = false;
-
-  public notif = { switch: false };
+  public notifChecked = false;
   readonly VAPID_PUBLIC_KEY =
     "BK9Ac2byemhpGs9BJGhyxEhhp-m5FyiWBfp-fnDJHwnvkUuuQj83_JJFZoCNrDav56sPJee6Epd-koA7Z4FQrJQ";
   subs: any;
@@ -21,11 +21,11 @@ export class SettingsPage implements OnInit {
   constructor(
     private swPush: SwPush,
     afDatabase: AngularFireDatabase,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController
   ) {
     this.subs = afDatabase.list("/pwavbv-firebaseapp-com-subs");
     console.log("[Settings] subs: ", this.subs);
-    console.log("[Settings] notif: ", this.notif.switch);
   }
 
   ngOnInit() {
@@ -45,9 +45,13 @@ export class SettingsPage implements OnInit {
       this.showAddToHomeScreen = !this.isIosStandaloneMode;
     }
 
-    const p: string = Notification["permission"];
-    console.log("[Settings] ngOnInit Notification permission: ", p);
-    // granted, default, denied
+    /*
+    const p: string = Notification["permission"]; // granted, default, denied
+    console.log("[Settings] ngOnInit Notification['permission']: ", p);
+    if (p === "granted") {
+      this.notifChecked = true;
+    }
+    */
 
     navigator.serviceWorker.getRegistration().then(registration => {
       if (registration) {
@@ -65,67 +69,69 @@ export class SettingsPage implements OnInit {
             .then(state => {
               console.log("[Settings] ngOnInit Push permission: ", state); // granted, prompt, denied
               if (state === "granted") {
-                this.notif.switch = true;
+                this.notifChecked = true;
               } else {
-                this.notif.switch = false;
+                this.notifChecked = false;
               }
             });
         });
       }
     });
-  }
+  } // end of ngOninit
 
   toggleNotifications(ev) {
     console.log("[Settings] toggle event: ", ev.detail);
     if (ev.detail.checked) {
-      this.subscribeToPush();
-
+      this.subscribeToPush(ev);
     } else {
       this.unsubscribeFromPush();
     }
   }
 
-  subscribeToPush() {
-    // console.log("[Settings] notif: ", this.notif.switch);
+  subscribeToPush(ev) {
     // console.log("[Settings] subscribeToPush called");
-
-    this.swPush
-      .requestSubscription({
-        serverPublicKey: this.VAPID_PUBLIC_KEY
-      })
-      .then(pushSubscription => {
-        // console.log("[Settings] User is subscribed. Subscription:", pushSubscription );
-        // Update the subscription database
-        const mysub = JSON.stringify(pushSubscription);
-        const subtime = Date();
-        this.subs.push({ subscription: mysub, timesubmitted: subtime });
-        console.log("[Settings] Subscription pushed: ", mysub);
-        this.presentToast(
-          "Du prenumerar nu på aviseringar från Brf Husarvikens Strand."
-        );
-      })
-      .catch(err => {
-        console.error("[Settings] requestSubscription error: ", err);
-        this.notif.switch = false; // does not work!
-        this.presentErrorToast(
-          "Det finns inte stöd för aviseringar på din enhet."
-        );
-      });
+    if ("serviceWorker" in navigator) {
+      this.swPush
+        .requestSubscription({
+          serverPublicKey: this.VAPID_PUBLIC_KEY
+        })
+        .then(pushSubscription => {
+          // console.log("[Settings] User is subscribed. Subscription:", pushSubscription );
+          // Update the subscription database
+          const mysub = JSON.stringify(pushSubscription);
+          const subtime = Date();
+          this.subs.push({ subscription: mysub, timesubmitted: subtime });
+          console.log("[Settings] Subscription pushed: ", mysub);
+          this.presentToast(
+            "Du prenumerar på aviseringar \nfrån Brf Husarvikens Strand."
+          );
+        })
+        .catch(err => {
+          console.error("[Settings] requestSubscription error: ", err);
+          this.presentAlert(
+            "Du har blockerat aviseringar. Se Hjälp.",
+            ev
+          );
+        });
+    } else {
+      this.presentAlert(
+        "Det finns inte stöd för aviseringar på din enhet.",
+        ev
+      );
+    }
   }
-
   unsubscribeFromPush() {
-    console.log("[Settings] notif: ", this.notif.switch);
     this.swPush
       .unsubscribe()
       .then(() => {
         console.log("[Settings] unsubscribe ok");
         this.presentToast(
-          "Du prenumerar inte längre på aviseringar från Brf Husarvikens Strand."
+          "Du prenumerar inte på aviseringar \nfrån Brf Husarvikens Strand."
         );
       })
       .catch(err => {
         console.error("[Settings] unsubscribe error: ", err);
-        this.presentErrorToast("[Settings] unsubscribe error");
+        //  this.presentAlert("[Settings] unsubscribe error", false);
       });
   }
 
@@ -137,13 +143,24 @@ export class SettingsPage implements OnInit {
     });
     toast.present();
   }
-  async presentErrorToast(msg) {
-    const toast1 = await this.toastCtrl.create({
+
+  async presentAlert(msg, ev) {
+    const alert = await this.alertCtrl.create({
+      // header: "Problem",
+      // subHeader: "Subtitle",
       message: msg,
-      position: "middle",
-      showCloseButton: true,
-      closeButtonText: "OK",
+      buttons: [
+        {
+          text: "OK",
+          handler: () => {
+            console.log("[App] Alert: Pressed OK");
+            if (ev) {
+              ev.target.checked = false;
+            }
+          }
+        }
+      ]
     });
-    toast1.present();
+    alert.present();
   }
 }

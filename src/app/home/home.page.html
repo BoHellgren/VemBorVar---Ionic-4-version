@@ -1,11 +1,12 @@
 <ion-header>
-  <figure>
+  <ion-toolbar>
     <img src='../../assets/imgs/logga.png' width='100%'>
-  </figure>
-  <ion-title text-center>
-    Vem Bor Var v4.02
-  </ion-title>
-  <p></p>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title text-center>
+      Vem Bor Var
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
@@ -21,8 +22,9 @@
 
     <ion-row>
       <ion-col col-6>
-        <ion-button class='houseblue' size='small' expand='full' href='/show-floor#28' routerDirection='forward'>7
-          trappor</ion-button>
+        <ion-button class='houseblue' size='small' expand='full' href='/show-floor#28'>
+          7 trappor
+        </ion-button>
       </ion-col>
       <ion-col col-6>
         <ion-button size='small' expand='full'>Taxgatan 7</ion-button>
@@ -44,7 +46,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-tab-bar>
+<ion-tab-bar slot="bottom">
 
   <ion-tab-button tab="search" href="/search" routerDirection='forward'>
     <ion-icon name="search"></ion-icon>
@@ -56,5 +58,9 @@
     <ion-label>Inställningar</ion-label>
   </ion-tab-button>
 
+  <ion-tab-button tab="settings" href="/about" routerDirection='forward'>
+    <ion-icon name="help"></ion-icon>
+    <ion-label>Hjälp</ion-label>
+  </ion-tab-button>
 
 </ion-tab-bar>

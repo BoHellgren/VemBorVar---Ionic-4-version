@@ -17,7 +17,7 @@
     visas även om du inte använder appen just då. T ex "Hissen på Taxgatan 3 är felanmäld."
   </p>
   <ion-item>
-    <ion-checkbox [ngModel]="notif.switch" (ionChange)="toggleNotifications($event)" color="secondary"></ion-checkbox>
+    <ion-checkbox [checked]="notifChecked" (ionChange)="toggleNotifications($event)" color="secondary"></ion-checkbox>
     <ion-label> &nbsp; &nbsp; Visa aviseringar</ion-label>
   </ion-item>
 

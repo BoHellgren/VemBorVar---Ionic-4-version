@@ -6,16 +6,21 @@
       ".firebaserc",
       "**/.git/**"
     ],
-    "rewrites": [ {
-      "source": "/home",
-      "destination": "/index.html"
-    } ],
     "headers": [ {
-      "source" : "**/ngsw-worker.js",
+      "source" : "*",
       "headers" : [ {
         "key" : "Cache-Control",
-        "value" : "no-cache"
+        "value" : "max-age=0"
       } ]
+    } ],
+    "redirects": [ {
+      "source": "/settings",
+      "destination": "/index.html",
+      "type": 301
+    } ],
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/index.html"
     } ]
     } 
 }

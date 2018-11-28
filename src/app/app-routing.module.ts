@@ -8,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
   { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
   { path: 'show-floor', loadChildren: './show-floor/show-floor.module#ShowFloorPageModule' },
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
+  { path: 'about', loadChildren: './about/about.module#AboutPageModule' },
 ];
 
 @NgModule({

@@ -21,6 +21,8 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    console.log("[Home] ngOnInit called");
     this.membersProvider.loadMembers(); // Load members from web site or storage
   }
+
 }

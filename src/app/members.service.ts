@@ -1,7 +1,7 @@
 import { Http } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { ToastController } from "@ionic/angular";
-
+import { AlertController } from "@ionic/angular";
 @Injectable({
   providedIn: "root"
 })
@@ -10,29 +10,34 @@ export class MembersService {
   members: Array<{ lgh: string; lmv: string; membername: string }>;
   newmembers: Array<{ lgh: string; lmv: string; membername: string }>;
 
-  constructor(public http: Http, public toastCtrl: ToastController) {
+  constructor(public http: Http, public toastCtrl: ToastController, public alertCtrl: AlertController) {
     console.log("[LoadMembers] constructor called");
   }
 
   async presentToast(msg) {
     const toast = await this.toastCtrl.create({
       message: msg,
-      duration: 5000,
+      duration: 3000,
       position: "middle"
     });
     toast.present();
   }
 
-  async presentErrorToast(msg) {
-    const toast1 = await this.toastCtrl.create({
-      message:
-        "Fel vid hämtning av aktuell medlemsinformation. Använder lokalt lagrade uppgifter. " +
-        msg,
-      position: "middle",
-      showCloseButton: true,
-      closeButtonText: "OK"
+  async presentAlert(msg) {
+    const alert = await this.alertCtrl.create({
+      header: "Fel vid hämtning av medlemsinformation.",
+      subHeader: "Använder lokalt lagrade uppgifter.",
+      message: msg,
+      buttons: [
+        {
+          text: "OK",
+          handler: () => {
+            console.log("[LoadMembers] Alert Confirm Ok");
+          }
+        }
+      ]
     });
-    toast1.present();
+    alert.present();
   }
 
   membersFromStorage(): any {
@@ -156,12 +161,12 @@ export class MembersService {
             // this.presentToast("Medlemsuppgifterna har stämts av mot hemsidan.");
           } else {
             this.presentToast(
-              "Medlemsuppgifterna har uppdaterats med data från hemsidan."
+              "Medlemsuppgifterna har uppdaterats \nmed data från hemsidan."
             );
           }
         } else { // there were no members in storage
           this.presentToast(
-            "Medlemsuppgifter har hämtats från hemsidan och lagrats i appen"
+            "Medlemsuppgifter har hämtats från \nhemsidan och lagrats i appen"
           );
         }
         // Switch to the new version of members
@@ -177,7 +182,7 @@ export class MembersService {
           // A client-side or network error occurred. Handle it accordingly.
           errormessage = err.error.message;
           console.log("[LoadMembers] Error message:", errormessage);
-          this.presentErrorToast(errormessage);
+          this.presentAlert(errormessage);
         } else {
           // The backend returned an unsuccessful response code.
           // The response body may contain clues as to what went wrong
@@ -192,7 +197,7 @@ export class MembersService {
           if (err.status === 0) {
             errormessage = "";
           }
-          this.presentErrorToast(errormessage);
+          this.presentAlert(errormessage);
         }
       }
     );
