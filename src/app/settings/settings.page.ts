@@ -24,7 +24,10 @@ export class SettingsPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController
   ) {
-    this.subs = afDatabase.list("/pwavbv-firebaseapp-com-subs");
+    this.subs = afDatabase.list(
+      "/" + window.location.hostname.replace(/(\.)/g, "-") + "-subs"
+    );
+    /* this.subs = afDatabase.list("/pwavbv-firebaseapp-com-subs"); */
     console.log("[Settings] subs: ", this.subs);
   }
 
@@ -100,8 +103,16 @@ export class SettingsPage implements OnInit {
           // Update the subscription database
           const mysub = JSON.stringify(pushSubscription);
           const subtime = Date();
-          this.subs.push({ subscription: mysub, timesubmitted: subtime });
-          console.log("[Settings] Subscription pushed: ", mysub);
+          this.subs
+          .push({ subscription: mysub, timesubmitted: subtime })
+          .then(
+            () => {
+              console.log("[Settings] Subscription pushed: ", mysub);
+            },
+            error => {
+              console.error("[Settings] Error has occured saving subscription: ", error);
+            }
+          );
           this.presentToast(
             "Du prenumerar på aviseringar \nfrån Brf Husarvikens Strand."
           );
